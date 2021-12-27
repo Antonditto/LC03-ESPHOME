@@ -1,0 +1,489 @@
+substitutions:
+  device_name: led-strip
+  device_description: RGB LED Strip with IR remote
+  device_id: led_strip
+  friendly_name: LED strip
+  
+esphome:
+  name: ${device_name}
+  comment: ${device_description}
+
+esp8266:
+  board: esp8285
+
+# Enable logging
+logger:
+  baud_rate: 0
+
+# Enable Home Assistant API
+api:
+
+ota:
+  password: "ed197b3473c5e84b468a2b30c0a88f41"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: ${device_name}_AP
+    password: !secret wifi_password
+
+captive_portal:
+
+web_server:
+  port: 80
+
+sensor:
+  - platform: wifi_signal
+    name: "WiFi Signal Sensor"
+    update_interval: 60s
+    
+remote_receiver:
+  pin: 
+    number: GPIO4
+    inverted: true
+  dump: nec
+
+binary_sensor:
+  - platform: remote_receiver
+    name: "Remote ON"
+    nec:
+      address: 0xFF00
+      command: 0xF20D
+    on_press:
+      then:
+        - light.turn_on:
+            id: ${device_id}
+
+  - platform: remote_receiver
+    name: "Remote OFF"
+    nec:
+      address: 0xFF00
+      command: 0xE01F
+    on_press:
+      then:
+        - light.turn_off: 
+            id: ${device_id}
+  
+  - platform: remote_receiver
+    name: "Remote BRIGHTUP"
+    nec:
+      address: 0xFF00
+      command: 0xF609
+    on_press:
+      then:
+        - light.dim_relative:
+            id: ${device_id}
+            relative_brightness: 5%
+            
+  - platform: remote_receiver
+    name: "Remote BRIGHTDOWN"
+    nec:
+      address: 0xFF00
+      command: 0xE21D
+    on_press:
+      then:
+        - light.dim_relative:
+            id: ${device_id}
+            relative_brightness: -5%
+
+  - platform: remote_receiver
+    name: "Remote RED"
+    nec:
+      address: 0xFF00
+      command: 0xE619
+    on_press:
+      then:
+        - light.turn_on:
+            id: ${device_id}
+            red: 100%
+            green: 0%
+            blue: 0%
+            effect: "None"
+
+  - platform: remote_receiver
+    name: "Remote GREEN"
+    nec:
+      address: 0xFF00
+      command: 0xE41B
+    on_press:
+      then:
+        - light.turn_on:
+            id: ${device_id}
+            red: 0%
+            green: 100%
+            blue: 0%
+            effect: "None"
+
+  - platform: remote_receiver
+    name: "Remote BLUE"
+    nec:
+      address: 0xFF00
+      command: 0xEE11
+    on_press:
+      then:
+        - light.turn_on:
+            id: ${device_id}
+            red: 0%
+            green: 0%
+            blue: 100%
+            effect: "None"
+
+  - platform: remote_receiver
+    name: "Remote WHITE"
+    nec:
+      address: 0xFF00
+      command: 0xEA15
+    on_press:
+      then:
+        - light.turn_on:
+            id: ${device_id}
+            red: 100%
+            green: 100%
+            blue: 100%
+            effect: "None"
+
+  - platform: remote_receiver
+    name: "Remote Dark Pastel Red"
+    nec:
+      address: 0xFF00
+      command: 0xE817
+    on_press:
+      then:
+        - light.turn_on:
+            id: ${device_id}
+            red: 76%
+            green: 23%
+            blue: 13%
+            effect: "None"
+
+  - platform: remote_receiver
+    name: "Remote Clover Green"
+    nec:
+      address: 0xFF00
+      command: 0xED12
+    on_press:
+      then:
+        - light.turn_on:
+            id: ${device_id}
+            red: 24%
+            green: 63%
+            blue: 33%
+            effect: "None"
+
+  - platform: remote_receiver
+    name: "Remote Cobalt"
+    nec:
+      address: 0xFF00
+      command: 0xE916
+    on_press:
+      then:
+        - light.turn_on:
+            id: ${device_id}
+            red: 12%
+            green: 28%
+            blue: 56%
+            effect: "None"
+
+  - platform: remote_receiver
+    name: "Remote Papaya Orange"
+    nec:
+      address: 0xFF00
+      command: 0xBF40
+    on_press:
+      then:
+        - light.turn_on:
+            id: ${device_id}
+            red: 90%
+            green: 40%
+            blue: 9%
+            effect: "None"
+
+  - platform: remote_receiver
+    name: "Remote Blue Chill"
+    nec:
+      address: 0xFF00
+      command: 0xB34C
+    on_press:
+      then:
+        - light.turn_on:
+            id: ${device_id}
+            red: 5%
+            green: 54%
+            blue: 56%
+            effect: "None"
+
+  - platform: remote_receiver
+    name: "Remote Wine Berry"
+    nec:
+      address: 0xFF00
+      command: 0xFB04
+    on_press:
+      then:
+        - light.turn_on:
+            id: ${device_id}
+            red: 35%
+            green: 11%
+            blue: 21%
+            effect: "None"
+
+  - platform: remote_receiver
+    name: "Remote Yellow Ochre"
+    nec:
+      address: 0xFF00
+      command: 0xF50A
+    on_press:
+      then:
+        - light.turn_on:
+            id: ${device_id}
+            red: 80%
+            green: 62%
+            blue: 2%
+            effect: "None"
+
+  - platform: remote_receiver
+    name: "Remote Petrol"
+    nec:
+      address: 0xFF00
+      command: 0xE11E
+    on_press:
+      then:
+        - light.turn_on:
+            id: ${device_id}
+            red: 0%
+            green: 37%
+            blue: 42%
+            effect: "None"
+
+  - platform: remote_receiver
+    name: "Remote Palatinate Purple"
+    nec:
+      address: 0xFF00
+      command: 0xF10E
+    on_press:
+      then:
+        - light.turn_on:
+            id: ${device_id}
+            red: 41%
+            green: 16%
+            blue: 38%
+            effect: "None"
+
+  - platform: remote_receiver
+    name: "Remote Buddha Gold"
+    nec:
+      address: 0xFF00
+      command: 0xE31C
+    on_press:
+      then:
+        - light.turn_on:
+            id: ${device_id}
+            red: 76%
+            green: 63%
+            blue: 2%
+            effect: "None"
+
+  - platform: remote_receiver
+    name: "Remote Prussian Blue"
+    nec:
+      address: 0xFF00
+      command: 0xEB14
+    on_press:
+      then:
+        - light.turn_on:
+            id: ${device_id}
+            red: 0%
+            green: 19%
+            blue: 33%
+            effect: "None"
+
+  - platform: remote_receiver
+    name: "Remote Rich Maroon"
+    nec:
+      address: 0xFF00
+      command: 0xF00F
+    on_press:
+      then:
+        - light.turn_on:
+            id: ${device_id}
+            red: 69%
+            green: 19%
+            blue: 38%
+            effect: "None"
+
+  - platform: remote_receiver
+    name: "Remote FLASH"
+    nec:
+      address: 0xFF00
+      command: 0xB24D
+    on_press:
+      then:
+        - light.turn_on:
+            id: ${device_id}
+            effect: "Slow Random Colors"
+
+  - platform: remote_receiver
+    name: "Remote STROBE"
+    nec:
+      address: 0xFF00
+      command: 0xFF00
+    on_press:
+      then:
+        - light.turn_on:
+            id: ${device_id}
+            effect: "Fast Random Colors"
+
+  - platform: remote_receiver
+    name: "Remote FADE"
+    nec:
+      address: 0xFF00
+      command: 0xE51A
+    on_press:
+      then:
+        - light.turn_on:
+            id: ${device_id}
+            effect: "Slow Pulse"
+
+  - platform: remote_receiver
+    name: "Remote SMOOTH"
+    nec:
+      address: 0xFF00
+      command: 0xF30C
+    on_press:
+      then:
+        - light.turn_on:
+            id: ${device_id}
+            effect: "Christmas"
+
+light:
+  - platform: rgb
+    name: ${friendly_name}
+    id: ${device_id}
+    red: red_channel
+    green: green_channel
+    blue: blue_channel
+    effects: # Add few effects : Slow and fast random colors and an "in alarm" mode.
+      - random:
+          name: "Slow Random Colors"
+          transition_length: 30s
+          update_interval: 30s
+      - random:
+          name: "Fast Random Colors"
+          transition_length: 4s
+          update_interval: 5s
+      - pulse:
+          name: "Slow Pulse"
+          transition_length: 1s
+          update_interval: 2s
+      - pulse:
+          name: "Fast Pulse"
+          transition_length: 0.5s
+          update_interval: 0.5s
+      - strobe:
+          name: "Strobe"
+      - strobe:
+          name: "In Alarm"
+          colors:
+            - state: True
+              brightness: 100%
+              red: 100%
+              blue: 0%
+              green: 0%
+              duration: 150ms
+            - state: False
+              duration: 100ms
+            - state: True
+              brightness: 100%
+              red: 100%
+              blue: 0%
+              green: 0%
+              duration: 150ms
+            - state: False
+              duration: 100ms
+            - state: True
+              brightness: 100%
+              red: 0%
+              blue: 100%
+              green: 0%
+              duration: 150ms
+            - state: False
+              duration: 100ms
+            - state: True
+              brightness: 100%
+              red: 0%
+              blue: 100%
+              green: 0%
+              duration: 150ms
+            - state: False
+              duration: 100ms  
+      - strobe:
+          name: "Christmas"
+          colors:
+            - state: True
+              brightness: 100%
+              red: 100%
+              blue: 0%
+              green: 0%
+              duration: 150ms
+            - state: False
+              duration: 100ms
+            - state: True
+              brightness: 100%
+              red: 100%
+              blue: 0%
+              green: 0%
+              duration: 150ms
+            - state: False
+              duration: 100ms
+            - state: True
+              brightness: 100%
+              red: 0%
+              blue: 0%
+              green: 100%
+              duration: 150ms
+            - state: False
+              duration: 100ms
+            - state: True
+              brightness: 100%
+              red: 0%
+              blue: 0%
+              green: 100%
+              duration: 150ms
+            - state: False
+              duration: 100ms  
+      - flicker:
+          name: "Flicker"
+      - lambda:
+          name: "Lambda"
+          update_interval: 1s
+          lambda: |-
+            static int state = 0;
+            auto call = id(${device_id}).turn_on();
+            // Transition of 1000ms = 1s
+            call.set_transition_length(1000);
+            if (state == 0) {
+              call.set_rgb(1.0, 1.0, 1.0);
+            } else if (state == 1) {
+              call.set_rgb(1.0, 0.0, 1.0);
+            } else if (state == 2) {
+              call.set_rgb(0.0, 0.0, 1.0);
+            } else {
+              call.set_rgb(1.0, 0.0, 0.0);
+            }
+            call.perform();
+            state += 1;
+            if (state == 4)
+              state = 0;
+
+output:
+  - platform: esp8266_pwm
+    id: red_channel
+    pin: GPIO5
+  - platform: esp8266_pwm
+    id: green_channel
+    pin: GPIO12
+  - platform: esp8266_pwm
+    id: blue_channel
+    pin: GPIO13
