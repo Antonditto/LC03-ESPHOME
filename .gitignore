@@ -1,0 +1,44 @@
+# =============================================================================
+# ESPHome Project .gitignore
+# =============================================================================
+
+# Secrets and sensitive configuration
+secrets.yaml
+*.secrets.yaml
+
+# Build artifacts and cache
+.esphome/
+build/
+.pioenvs/
+.piolibdeps/
+.pio/
+
+# Compiled firmware
+*.bin
+*.elf
+
+# Logs
+*.log
+logs/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Operating system files
+.DS_Store
+Thumbs.db
+*.tmp
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# ESPHome specific
+.esphome/
+config/
+.storage/
